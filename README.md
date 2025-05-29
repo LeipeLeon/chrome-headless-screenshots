@@ -64,6 +64,7 @@ Options:
       --delay        Delay before taking the screenshot in ms                          [number] [default: 0]
       --format       Image format of the screenshot
                                                   [string] [choices: "png", "jpeg", "webp"] [default: "png"]
+      --timezone     Timezone of browser  [string] [default: "UTC"]
 
 Examples:
   index.js https://github.com                             Take a screenshot of https://github.com and save

@@ -74,6 +74,12 @@ let argv = yargs(process.argv.slice(2))
         demandOption: false,
         default: 'png',
       })
+      .option('timezone', {
+        description: 'Timezone of browser',
+        type: 'string',
+        demandOption: false,
+        default: 'UTC',
+      })
       .positional('url', {
         description: 'Url of the webpage you want to take a screenshot of',
         type: 'string',
@@ -137,6 +143,7 @@ function takeScreenshot(argv) {
         await page.setCookie(cookies);
       }
     }
+    await page.emulateTimezone(argv.timezone);
 
     await page.goto(argv.url);
 
