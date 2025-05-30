@@ -80,6 +80,12 @@ let argv = yargs(process.argv.slice(2))
         demandOption: false,
         default: 'UTC',
       })
+      .option('element', {
+        description: 'Element to screenshot',
+        type: 'string',
+        demandOption: false,
+        default: '',
+      })
       .positional('url', {
         description: 'Url of the webpage you want to take a screenshot of',
         type: 'string',
@@ -149,12 +155,21 @@ function takeScreenshot(argv) {
 
     if (argv.delay) await delay(argv.delay);
 
-    await page.screenshot({
-      path: path
-        .join(argv.outputDir, argv.filename + '.' + argv.format)
-        .toString(),
-      type: argv.format,
-    });
+    if (argv.element) {
+      const fileElement = await page.waitForSelector(argv.element);
+      await fileElement.screenshot({
+        path: path
+          .join(argv.outputDir, argv.filename + '.' + argv.format)
+          .toString(),
+      });
+    } else {
+      await page.screenshot({
+        path: path
+          .join(argv.outputDir, argv.filename + '.' + argv.format)
+          .toString(),
+        type: argv.format,
+      });
+    }
 
     await browser.close();
   })();
